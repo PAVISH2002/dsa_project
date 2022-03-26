@@ -1,0 +1,157 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+struct s
+{
+	char name[20];
+	int age;
+	char r_num[8];
+	int cgpa;
+	int cur_sem;
+	int gpa[7];
+	struct s*next;
+};
+struct s*head=NULL;
+
+void newbase();
+void deletebase();
+void editbase();
+void display();
+void display_one();
+void insertend();
+
+int main()
+{
+	int n;
+	printf("Enter your choice:\n");
+	while(1)
+	{
+		printf("Enter 1 for create a database\n");
+		printf("Enter 2 for delete a database\n");
+		printf("Enter 3 for edit a database\n");
+		printf("Enter 4 for display a database\n");
+		printf("Enter 5 for display a particular database\n");
+		printf("Enter 6 for exit from the program\n");
+		scanf("%d",&n);
+		switch(n)
+		{
+			case 1:
+				newbase();
+				break;
+			case 2:
+				display();
+				break;
+			case 3:
+				editbase();
+				break;
+			case 4:
+				display();
+				break;
+			case 5:
+				display_one();
+				break;
+			case 6:
+				return 0;
+			default:
+				printf("Invalid Input\n");
+				break;
+		}
+	}
+}
+
+void newbase()
+{
+	int n,sum=0;
+	struct s*newnode;
+	newnode=(struct s*)malloc(sizeof(struct s));
+	newnode->next=NULL;
+	if(head==NULL)
+	{
+		head=newnode;
+    printf("Enter the name of the student\n");
+	scanf("%s",newnode->name);
+	printf("Enter the roll no of the student in capital\n");
+	scanf("%s",newnode->r_num);
+	printf("Enter the age of the student\n");
+	scanf("%d",&newnode->age);
+	printf("Enter the semester of the student\n");
+	scanf("%d",&newnode->cur_sem);
+	int i;
+	for(i=0;i<newnode->cur_sem;i++)
+	{
+		printf("Enter the %d sem cgpa",i+1);
+		scanf("%d",&newnode->gpa[i]);
+	}
+	for(i=0;i<newnode->cur_sem;i++)
+	    sum=sum+newnode->gpa[i];
+	newnode->cgpa=sum/newnode->cur_sem;
+	}
+	else
+	    insertend();
+}
+
+void insertend()
+{
+	int i,sum=0;
+	struct s*temp;
+	struct s*newnode;
+	newnode=(struct s*)malloc(sizeof(struct s));
+	temp=head;
+	while(temp->next!=NULL)
+	{
+	   temp=temp->next;
+	}
+	temp->next=newnode;
+	printf("Enter the name of the student\n");
+	scanf("%s",newnode->name);
+	printf("Enter the roll no of the student in capital\n");
+	scanf("%s",newnode->r_num);
+	printf("Enter the age of the student\n");
+	scanf("%d",&newnode->age);
+	printf("Enter the semester of the student\n");
+	scanf("%d",&newnode->cur_sem);
+	for(i=0;i<newnode->cur_sem;i++)
+	{
+		printf("Enter the %d sem cgpa",i+1);
+		scanf("%d",&newnode->gpa[i]);
+	}
+	for(i=0;i<newnode->cur_sem;i++)
+	    sum=sum+newnode->gpa[i];
+	newnode->cgpa=sum/newnode->cur_sem;
+}
+
+
+void display()
+{
+	int i;
+	struct s*temp;
+	temp=head;
+	if(head==NULL){   
+		printf("No data\n");
+        }
+    else if(head->next==NULL){
+    printf("Name of the student    : %s\n",head->name);
+		printf("Roll no of the student : %s\n",head->r_num);
+		printf("Age of the student     : %d\n",head->age);
+		printf("GPA of the student\n");
+			for(i=0;i<head->cur_sem;i++)
+	   	        printf("%d SEM                  : %d\n",i+1,head->gpa[i]);
+		printf("CGPA of the student    : %d\n",head->cgpa);
+        }
+    else
+    {
+    	temp=head;
+    	while(temp!=NULL)
+    	{
+    	printf("Name of the student    : %s\n",temp->name);
+		printf("Roll no of the student : %s\n",temp->r_num);
+		printf("Age of the student     : %d\n",temp->age);
+		printf("GPA of the student\n");
+		for(i=0;i<temp->cur_sem;i++)
+	   	    printf("%d SEM                  : %d\n",i+1,temp->gpa[i]);
+		printf("CGPA of the student    : %d\n",temp->cgpa);
+		temp=temp->next;
+        }
+	}
+}
